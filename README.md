@@ -17,7 +17,7 @@
 > hangul_utils
 > transformers
 
-### 현재버그
+### 버그
 > colab에서 작동이 안됩니다. 이유는 모르겠습니다;
 
 ### Reference
