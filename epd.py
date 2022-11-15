@@ -426,10 +426,11 @@ def vocab_clean(jamo_list, sig_to_space=True, sig_to_unk=False):
 
 if __name__ == '__main__':
     w2v= huggingface_Wav2Vec(w_paths[0])#   
-    sep_speech, sr = w2v.w2v_epd_sil(path='hop_21k.wav',
-                                start =0,
-                                end = 30,
-                                margin_frame=2, 
-                                max_sil_frame=30
+    sep_speech, sr = w2v.w2v_epd_sil(path='hop_21k.wav', #대상 한국어 음성 위치 입력
+                                start =0,                #구간 검출할 음성의 시작점 (초 단위임, 음성이 너무 길경우에는 속도가 느려져서 음성의 일부만 활용하기 위해 세팅함, default = 0)
+                                end = 30,                #구간 검출할 음성의 끝점 (default = -1(음성의 맨 끝))
+                                margin_frame=2,          #자를때 마진 너무 타이트하게 자르면 앞뒤가 살짝 끊김. 그래서 2프레임정도를 더 잘라오게함. wav2vec2.0은 1frame이 0.02초.
+                                max_sil_frame=30,         #TTS용은 silence가 너무 길면 안됨. silence 길이가 30프레임이 넘어가면 자동으로 가운데값 날리고 30프레임만 가지고옴
+                                text='우리 지금 부터 시작이야' #위의 음성으로 부터 "우리 지금부터 시작이야" 만 가지고 오라는 뜻. text = None을 주면 음성인식후에 음성인식한 결과에 해당하는 값을 가지고옴. epd로 동작한다는 뜻.
                                 )
     w2v.save(fname='h_sep.wav', speech=sep_speech, sr=sr)
